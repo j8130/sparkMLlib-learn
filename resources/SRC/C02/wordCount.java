@@ -1,6 +1,3 @@
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.StringTokenizer;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
@@ -16,6 +13,10 @@ import org.apache.hadoop.mapred.Reducer;
 import org.apache.hadoop.mapred.Reporter;
 import org.apache.hadoop.mapred.TextInputFormat;
 import org.apache.hadoop.mapred.TextOutputFormat;
+
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.StringTokenizer;
 
 // MR实现wordCount
 public class WordCount {
