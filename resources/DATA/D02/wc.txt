@@ -1,0 +1,4 @@
+good bad cool
+hadoop spark mllib
+good spark mllib
+cool spark bad
