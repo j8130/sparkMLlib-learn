@@ -25,7 +25,7 @@ object test08Summary {
     println(summary.count) // 计算行内数据个数
     println(summary.max) // 计算最大值
     println(summary.normL1) // 计算曼哈顿距离     标明两个点在标准坐标系上的绝对轴距总和，相当于 1+2+3+4+5
-    println(summary.normL2) // 计算欧几里得距离   欧式距离，就是勾股定理那个
+    println(summary.normL2) // 计算欧几里得距离   欧几里得距离，就是勾股定理那个
     println(summary.numNonzeros) // 计算不含0值的个数
 
   }
