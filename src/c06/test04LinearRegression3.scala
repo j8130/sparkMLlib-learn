@@ -1,22 +1,18 @@
 package c06
 
-import org.apache.log4j.{Level, Logger}
 import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.regression.{LabeledPoint, LinearRegressionWithSGD}
 import org.apache.spark.{SparkConf, SparkContext}
 
 /**
- * 线性回归实战：商品价格与消费者收入之间的关系
- * 没跑通
- * 数据格式   50|8,30     | 分割了y与x，不同的x通过,分割      函数 y=a1x+a2x
+ * 对线性回归拟合曲线的验证
+ * 验证根据系数拟合出来的公式是否符合真实数据表现。使用的是 均方误差 MSE ：评价数据的变化程度，均方根误差是均方误差的算术平方根
  */
-object test03LinearRegression2 {
+object test04LinearRegression3 {
   val conf = new SparkConf() //创建环境变量
     .setMaster("local") //设置本地化处理
-    .setAppName("LinearRegression2") //设定名称
+    .setAppName("LinearRegression3") //设定名称
   val sc = new SparkContext(conf) //创建环境变量实例
-
-  Logger.getRootLogger.setLevel(Level.ERROR)
 
   def main(args: Array[String]) {
     val data = sc.textFile("E:\\GitHub\\sparkMLlib-learn\\resources\\DATA\\D06\\lr.txt") //获取数据集路径
@@ -24,13 +20,15 @@ object test03LinearRegression2 {
       val parts = line.split('|') //根据逗号进行分区
       LabeledPoint(parts(0).toDouble, Vectors.dense(parts(1).split(',').map(_.toDouble)))
     }.cache() //转化数据格式
-    //建立模型
-    val model = LinearRegressionWithSGD.train(parsedData, 200, 0.1)
-    val prediction = model.predict(parsedData.map((_.features)))
-    //检验测试集数据
-    prediction.foreach(obj => println(obj)) //打印原测试集数据使用模型后得出的结果
-    println(model.predict(Vectors.dense(0, 1))) //提供新的待测数据
+    val model = LinearRegressionWithSGD.train(parsedData, 2, 0.1) //建立模型
+    val valuesAndPreds = parsedData.map { point => { //获取真实值与预测值
+      val prediction = model.predict(point.features) //对系数进行预测
+      (point.label, prediction) //按格式存储
+    }
+    }
+
+    val MSE = valuesAndPreds.map { case (v, p) => math.pow((v - p), 2) }.mean() //计算MSE
+    println(MSE)
   }
+
 }
-
-
