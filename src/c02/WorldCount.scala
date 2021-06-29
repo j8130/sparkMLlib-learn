@@ -1,4 +1,4 @@
-package C02
+package c02
 
 import org.apache.spark.{SparkContext, SparkConf}
 /**
